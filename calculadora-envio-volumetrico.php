@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Calculadora de Envío Volumétrico
- * Plugin URI:        https://#
+ * Plugin URI:        https://github.com/gerardomaidana/calculadora-envio-volumetrico
  * Description:       Calcula el peso volumétrico y asigna la Clase de Envío correcta de WooCommerce al guardar el producto. Incluye herramienta de recálculo masivo y calculadora de costos de envío en el frontend.
  * Version:           2.3.13
- * Author:            Tu Nombre
- * Author URI:        https://#
+ * Author:            Gerardo Maidana
+ * Author URI:        https://linkedin.com/in/gerardo-maidana
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       calculadora-volumetrico
