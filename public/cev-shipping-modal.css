@@ -1,0 +1,266 @@
+/* ========================================
+   Calculadora de Envío Volumétrico - Modal
+   ======================================== */
+
+/* Overlay del modal */
+.cev-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cev-modal-overlay.cev-active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+/* Contenedor del modal */
+.cev-modal-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.cev-modal-overlay.cev-active .cev-modal-container {
+    transform: scale(1);
+}
+
+/* Header del modal */
+.cev-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cev-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cev-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.cev-modal-close:hover {
+    color: #333;
+}
+
+/* Body del modal */
+.cev-modal-body {
+    padding: 24px;
+}
+
+.cev-form-group {
+    margin-bottom: 20px;
+}
+
+.cev-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
+}
+
+.cev-form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.2s ease;
+}
+
+.cev-form-group select:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* Botón de calcular */
+.cev-btn-calculate {
+    width: 100%;
+    padding: 14px 24px;
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cev-btn-calculate:hover {
+    background-color: #005a87;
+}
+
+.cev-btn-calculate:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Área de resultados */
+.cev-result-area {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 4px;
+    display: none;
+}
+
+.cev-result-area.cev-show {
+    display: block;
+}
+
+.cev-result-area.cev-success {
+    background-color: #e7f5e9;
+    border: 1px solid #46b450;
+}
+
+.cev-result-area.cev-error {
+    background-color: #fef0f0;
+    border: 1px solid #dc3232;
+}
+
+.cev-result-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.cev-result-cost {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0073aa;
+    margin-bottom: 8px;
+}
+
+.cev-result-method {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.cev-result-error {
+    color: #dc3232;
+    font-size: 14px;
+}
+
+/* Estado de carga */
+.cev-loading {
+    display: none;
+    text-align: center;
+    padding: 12px;
+    color: #666;
+}
+
+.cev-loading.cev-show {
+    display: block;
+}
+
+.cev-loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0073aa;
+    border-radius: 50%;
+    animation: cev-spin 1s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes cev-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Botón de trigger en la página del producto */
+.cev-shipping-calculator-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cev-shipping-calculator-btn:hover {
+    background-color: #fff;
+    border-color: #0073aa;
+    color: #0073aa;
+}
+
+.cev-shipping-calculator-btn::before {
+    content: "🚚 ";
+    margin-right: 6px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .cev-modal-container {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .cev-modal-header {
+        padding: 16px 20px;
+    }
+
+    .cev-modal-header h3 {
+        font-size: 18px;
+    }
+
+    .cev-modal-body {
+        padding: 20px;
+    }
+
+    .cev-result-cost {
+        font-size: 20px;
+    }
+}

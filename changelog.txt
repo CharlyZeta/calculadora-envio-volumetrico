@@ -1,0 +1,94 @@
+=== Calculadora de Envío Volumétrico - Changelog ===
+
+= 2.3.13 - 2025-11-26 =
+**Mejoras:**
+* UI: Agregada barra de distribución visual en la página de ajustes para ver la cantidad de productos por clase de envío.
+* DEV: Refactorización completa del código fuente. Se ha dividido el archivo principal en módulos (Core, Admin, Frontend) para mejorar la mantenibilidad y organización del proyecto.
+* I18N: Eliminada dependencia regional de Argentina. Ahora el plugin detecta automáticamente el país base de la tienda y sus estados/provincias para el cálculo de envíos.
+
+= 2.3.12 - 2025-11-25 =
+**Mejoras:**
+* UI: Implementada funcionalidad de arrastrar y soltar (Drag & Drop) en la tabla de reglas de envío para reordenar fácilmente las filas.
+
+**Correcciones:**
+* FIX: Solucionado error fatal de sintaxis en la página de ajustes causado por código duplicado.
+* FIX: Restaurada estructura corrupta del archivo de ajustes para asegurar la correcta definición de funciones.
+
+= 2.3.11 - 2025-11-22 =
+**Mejoras:**
+* UI: Agregada etiqueta de recomendación en la ficha de edición del producto que muestra la clase de envío calculada según las dimensiones.
+
+= 2.3.10 - 2025-11-22 =
+**Correcciones:**
+* FIX: Solucionado problema de persistencia al guardar la clase de envío. Ahora se fuerza la actualización en la base de datos.
+
+= 2.3.9 - 2025-11-22 =
+**Mejoras:**
+* FIX: El recálculo de la clase de envío ahora utiliza las dimensiones ingresadas en el formulario de edición al guardar, en lugar de los valores antiguos.
+
+= 2.3.8 - 2025-11-20 =
+**Correcciones Críticas:**
+* FIX: Solucionado error de sintaxis (Unmatched '}') restaurando funciones faltantes.
+
+= 2.3.7 - 2025-11-20 =
+**Correcciones Críticas:**
+* FIX: Solucionado error de sintaxis (unexpected token) causado por una edición incompleta anterior.
+* FIX: Restaurada función de carga de assets que se había perdido.
+
+= 2.3.6 - 2025-11-20 =
+**Correcciones de UI:**
+* FIX: Corregida ruta de carga del archivo CSS del frontend (el modal ahora se muestra correctamente oculto).
+* FIX: Corregida aplicación del color personalizado del botón (ahora se inyecta en el estilo correcto).
+
+= 2.3.5 - 2025-11-20 =
+**Correcciones Críticas:**
+* FIX: Reescritura completa del archivo principal para eliminar corrupción de código residual.
+* FIX: Restauradas todas las funciones del plugin a su estado correcto.
+
+= 2.3.4 - 2025-11-20 =
+**Correcciones Críticas:**
+* FIX: Reparada corrupción de archivo que fusionaba funciones de administración y frontend.
+* FIX: Restaurada funcionalidad completa de ajustes y calculadora.
+
+= 2.3.3 - 2025-11-20 =
+**Correcciones Críticas:**
+* FIX: Corregido error fatal de sintaxis en la carga de scripts del frontend.
+* UPDATE: Actualizada versión de scripts y estilos.
+
+= 2.3.2 - 2025-11-20 =
+**Correcciones Críticas:**
+* Solucionado error fatal (Parse error) causado por corrupción de archivo en la versión anterior
+* Restaurada función faltante `cev_aplicar_logica_a_producto_desde_guardado`
+* Eliminados caracteres inválidos que causaban errores de sintaxis
+
+= 2.3.1 - 2025-11-20 =
+**Mejoras:**
+* Agregado selector de color en ajustes para personalizar el botón de calculadora de envío
+* Integración con WordPress Color Picker para fácil selección de colores
+* Aplicación dinámica del color personalizado al botón del frontend
+* Enlace directo a "Ajustes" en la página de plugins de WordPress
+
+**Correcciones:**
+* Corregido nombre de provincia "CABA" a "Ciudad Autónoma de Buenos Aires" para coincidir con WooCommerce
+* Actualizado border-radius del botón de 4px a 50px para bordes completamente redondeados
+* Mejorada compatibilidad con diferentes temas de WordPress
+
+= 2.3.0 - 2025-11-19 =
+**Nuevas Funcionalidades:**
+* Calculadora de costos de envío en el frontend de la ficha del producto
+* Modal interactivo con selector de 24 provincias argentinas
+* Integración completa con zonas y métodos de envío de WooCommerce
+* Cálculo automático basado en clases de envío del producto
+* Diseño responsive para móvil, tablet y desktop
+* Manejo de errores y estados de carga
+
+**Mejoras:**
+* Optimización de carga de assets (solo en páginas de producto)
+* Seguridad mejorada con nonces en llamadas AJAX
+* Validación de datos en frontend y backend
+
+= 2.2.1 =
+* Versión inicial con cálculo de peso volumétrico
+* Asignación automática de clases de envío
+* Herramienta de recálculo masivo
+* Página de ajustes en panel de administración

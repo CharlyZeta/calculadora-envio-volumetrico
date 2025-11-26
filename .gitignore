@@ -1,0 +1,27 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.swp
+
+# Logs de WordPress
+debug.log
+error.log
+
+# Dependencias (si se usaran en el futuro)
+node_modules/
+vendor/
+composer.lock
+package-lock.json
+
+# Archivos comprimidos
+*.zip
+*.tar.gz
+*.rar
+
+# Archivos de configuración local (si hubiera)
+config.local.php
