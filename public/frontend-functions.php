@@ -15,13 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'wp_enqueue_scripts', 'cev_enqueue_frontend_assets' );
 
 function cev_enqueue_frontend_assets() {
-    wp_enqueue_style( 'cev-frontend-style', plugin_dir_url( dirname( __FILE__ ) ) . 'public/cev-shipping-modal.css', [], '2.3.13' );
+    wp_enqueue_style( 'cev-frontend-style', plugin_dir_url( dirname( __FILE__ ) ) . 'public/cev-shipping-modal.css', [], '2.3.14' );
 
     wp_enqueue_script(
         'cev-shipping-modal',
         plugin_dir_url( dirname( __FILE__ ) ) . 'public/cev-shipping-modal.js',
         ['jquery'],
-        '2.3.13',
+        '2.3.14',
         true
     );
 
@@ -214,6 +214,14 @@ function cev_calcular_costo_envio_ajax() {
         }
 
         if ( $costo_encontrado ) {
+            // Verificar si hay un nombre de transporte personalizado para esta clase de envío
+            $escalas = get_option( 'cev_escalas_envio', [] );
+            foreach ( $escalas as $escala ) {
+                if ( $escala['class_id'] == $shipping_class_id && isset($escala['transport_method']) && !empty($escala['transport_method']) ) {
+                    $metodo_titulo = $escala['transport_method'];
+                    break;
+                }
+            }
             break;
         }
     }
@@ -228,6 +236,6 @@ function cev_calcular_costo_envio_ajax() {
     wp_send_json_success( [
         'cost'           => $costo,
         'cost_formatted' => $costo_formateado,
-
+        'method_title'   => $metodo_titulo,
     ] );
 }

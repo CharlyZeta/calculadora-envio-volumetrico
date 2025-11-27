@@ -1,5 +1,11 @@
 === Calculadora de Envío Volumétrico - Changelog ===
 
+= 2.3.14 - 2025-11-27 =
+**Nuevas Funcionalidades:**
+* Nuevo: Agregada configuración de "Métodos de Transporte" en la página de ajustes.
+* Nuevo: Agregada opción para seleccionar el método de transporte específico para cada regla de envío.
+* Mejora: El calculador de envíos ahora muestra el nombre del método de transporte configurado en lugar de "Undefined".
+
 = 2.3.13 - 2025-11-26 =
 **Mejoras:**
 * UI: Agregada barra de distribución visual en la página de ajustes para ver la cantidad de productos por clase de envío.

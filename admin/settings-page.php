@@ -41,12 +41,18 @@ function cev_guardar_ajustes() {
                     'class_id' => (int) $escala_data['class_id'],
                     'min'      => (float) str_replace(',', '.', $escala_data['min']),
                     'max'      => (float) str_replace(',', '.', $escala_data['max']),
+                    'transport_method' => isset( $escala_data['transport_method'] ) ? sanitize_text_field( $escala_data['transport_method'] ) : '',
                     'estado'   => isset( $escala_data['estado'] ) ? 'activo' : 'inactivo',
                 ];
             }
         }
     }
     update_option( 'cev_escalas_envio', $escalas_nuevas );
+    
+    // Guardar lista de métodos de transporte
+    if ( isset( $_POST['cev_transport_methods_list'] ) ) {
+        update_option( 'cev_transport_methods_list', sanitize_textarea_field( $_POST['cev_transport_methods_list'] ) );
+    }
     
     // Guardar color del botón
     if ( isset( $_POST['cev_button_color'] ) ) {
@@ -66,6 +72,10 @@ function cev_renderizar_pagina_ajustes() {
     $escalas = get_option( 'cev_escalas_envio', [] );
     $shipping_classes = get_terms( ['taxonomy' => 'product_shipping_class', 'hide_empty' => false] );
     $button_color = get_option( 'cev_button_color', '#f7f7f7' );
+    $transport_methods_list = get_option( 'cev_transport_methods_list', '' );
+    
+    // Procesar lista de métodos para el dropdown
+    $available_methods = array_filter(array_map('trim', explode(',', $transport_methods_list)));
     
     // Encolar el color picker de WordPress y jQuery UI Sortable
     wp_enqueue_style( 'wp-color-picker' );
@@ -83,6 +93,7 @@ function cev_renderizar_pagina_ajustes() {
                         <th style="width: 30px;"><span class="dashicons dashicons-menu" title="<?php _e( 'Orden', 'calculadora-volumetrico' ); ?>"></span></th>
                         <th style="width:5%;"><?php _e( 'Activo', 'calculadora-volumetrico' ); ?></th>
                         <th><?php _e( 'Clase de Envío', 'calculadora-volumetrico' ); ?></th>
+                        <th><?php _e( 'Método de Transporte', 'calculadora-volumetrico' ); ?></th>
                         <th><?php _e( 'PV Mínimo', 'calculadora-volumetrico' ); ?></th>
                         <th><?php _e( 'PV Máximo', 'calculadora-volumetrico' ); ?></th>
                         <th style="width:10%;"><?php _e( 'Acción', 'calculadora-volumetrico' ); ?></th>
@@ -101,19 +112,36 @@ function cev_renderizar_pagina_ajustes() {
                                 <?php endforeach; ?>
                             </select>
                         </td>
+                        <td>
+                            <select name="cev_escala[<?php echo $key; ?>][transport_method]" class="large-text">
+                                <option value=""><?php _e( '— Por defecto —', 'calculadora-volumetrico' ); ?></option>
+                                <?php foreach ($available_methods as $method) : ?>
+                                    <option value="<?php echo esc_attr($method); ?>" <?php selected(isset($escala['transport_method']) ? $escala['transport_method'] : '', $method); ?>><?php echo esc_html($method); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                         <td><input type="number" step="0.01" name="cev_escala[<?php echo $key; ?>][min]" value="<?php echo esc_attr( $escala['min'] ); ?>" class="small-text" required></td>
                         <td><input type="number" step="0.01" name="cev_escala[<?php echo $key; ?>][max]" value="<?php echo esc_attr( $escala['max'] ); ?>" class="small-text" required></td>
                         <td><button type="button" class="button button-secondary cev-eliminar-fila"><?php _e( 'Eliminar', 'calculadora-volumetrico' ); ?></button></td>
                     </tr>
                     <?php endforeach; endif; ?>
                 </tbody>
-                <tfoot><tr><td colspan="6"><button type="button" id="cev-agregar-fila" class="button button-primary"><?php _e( 'Añadir Nueva Regla', 'calculadora-volumetrico' ); ?></button></td></tr></tfoot>
+                <tfoot><tr><td colspan="7"><button type="button" id="cev-agregar-fila" class="button button-primary"><?php _e( 'Añadir Nueva Regla', 'calculadora-volumetrico' ); ?></button></td></tr></tfoot>
             </table>
             
             <hr>
             
             <h2><?php _e( 'Personalización', 'calculadora-volumetrico' ); ?></h2>
             <table class="form-table">
+                <tr>
+                    <th scope="row">
+                        <label for="cev_transport_methods_list"><?php _e( 'Lista de Métodos de Transporte', 'calculadora-volumetrico' ); ?></label>
+                    </th>
+                    <td>
+                        <textarea id="cev_transport_methods_list" name="cev_transport_methods_list" class="large-text" rows="3"><?php echo esc_textarea( $transport_methods_list ); ?></textarea>
+                        <p class="description"><?php _e( 'Ingresa los métodos de transporte disponibles separados por comas (ej: Moto, Camión, Correo). Estos aparecerán en el selector de arriba.', 'calculadora-volumetrico' ); ?></p>
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row">
                         <label for="cev_button_color"><?php _e( 'Color del Botón', 'calculadora-volumetrico' ); ?></label>
@@ -249,6 +277,14 @@ function cev_renderizar_pagina_ajustes() {
                             <option value=""><?php _e( '— Seleccionar una clase —', 'calculadora-volumetrico' ); ?></option>
                             <?php foreach ($shipping_classes as $class) : ?>
                                 <option value="<?php echo esc_attr($class->term_id); ?>"><?php echo esc_html($class->name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="cev_escala[${rowCount}][transport_method]" class="large-text">
+                            <option value=""><?php _e( '— Por defecto —', 'calculadora-volumetrico' ); ?></option>
+                            <?php foreach ($available_methods as $method) : ?>
+                                <option value="<?php echo esc_attr($method); ?>"><?php echo esc_html($method); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </td>
